@@ -56,11 +56,11 @@ public class AppointmentController {
             appointment.getStartsAt().equals(appointment.getFinishesAt()) ||
             appointment.getStartsAt().isAfter(appointment.getFinishesAt())
         ){
-            return new ResponseEntity<List<Appointment>>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         
         List<Appointment> appointments = appointmentRepository.findAll();
-        boolean overlaps = appointments.stream().anyMatch(a -> appointment.overlaps(a));
+        boolean overlaps = appointments.stream().anyMatch(appointment::overlaps);
         if(overlaps){
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
